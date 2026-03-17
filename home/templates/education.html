@@ -1,33 +1,73 @@
 {% extends 'about.html' %}
 {% block sub_content %}
-<div class="flex m-12">
-    <div class="education grid grid-cols-3 gap-8">
-        {% for x in education_info %}
-        <div class="border p-4 rounded-lg shadow-lg">
-            <div class="flex flex-col">
-                {% if x.name %}
-                    <p class="text-2xl font-bold">{{ x.name }}</p>
-                {% endif %}
-                {% if x.institute %}
-                    <p class="text-lg">{{ x.institute }}</p>
-                {% endif %}
-                {% if x.specilization %}
-                    <p class="text-gray-700">{{ x.specilization }}</p>
-                {% endif %}
-                <div class="flex justify-between text-sm text-gray-500">
-                    {% if x.join_date %}
-                        <p>Start: {{ x.join_date }}</p>
+
+<section class="py-12">
+
+    <div class="max-w-4xl mx-auto px-6">
+
+        <h2 class="text-2xl font-semibold text-gray-900 mb-10">
+            Education
+        </h2>
+
+        <div class="space-y-8 border-l pl-6">
+
+            {% for x in education_info %}
+            <div class="relative">
+
+                <!-- DOT -->
+                <div class="absolute -left-2 top-2 w-2 h-2 bg-gray-400 rounded-full"></div>
+
+                <!-- CONTENT -->
+                <div class="space-y-1">
+
+                    {% if x.name %}
+                    <h3 class="text-base font-medium text-gray-900">
+                        {{ x.name }}
+                    </h3>
                     {% endif %}
-                    {% if x.end_date %}
-                        <p>End: {{ x.end_date }}</p>
+
+                    {% if x.institute %}
+                    <p class="text-sm text-gray-600">
+                        {{ x.institute }}
+                    </p>
                     {% endif %}
+
+                    {% if x.specilization %}
+                    <p class="text-sm text-gray-500">
+                        {{ x.specilization }}
+                    </p>
+                    {% endif %}
+
+                    <!-- DATE -->
+                    {% if x.join_date or x.end_date %}
+                    <p class="text-sm text-gray-500">
+                        {% if x.join_date %}{{ x.join_date }}{% endif %}
+                        {% if x.join_date and x.end_date %} — {% endif %}
+                        {% if x.end_date %}{{ x.end_date }}{% endif %}
+                    </p>
+                    {% endif %}
+
+                    <!-- MARKS -->
+                    {% if x.marks %}
+                    <p class="text-sm text-gray-700">
+                        Score: {{ x.marks }}
+                    </p>
+                    {% endif %}
+
                 </div>
-                {% if x.marks %}
-                    <p class="text-sm font-semibold">Marks: {{ x.marks }}</p>
-                {% endif %}
+
             </div>
+
+            {% empty %}
+            <p class="text-gray-500">
+                No education details available yet.
+            </p>
+            {% endfor %}
+
         </div>
-        {% endfor %}
+
     </div>
-</div>
+
+</section>
+
 {% endblock %}

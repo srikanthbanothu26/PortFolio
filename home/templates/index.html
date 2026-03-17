@@ -1,50 +1,103 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="min-h-screen  flex items-center justify-center p-4">
-    <div class="container mx-auto px-8">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-            <!-- Left Section -->
-            <div class="text-center md:text-left">
-                <h1 class="text-4xl font-bold mb-4 leading-snug">
-                    Welcome to My Portfolio!
-                </h1>
-                <p class="text-lg">
-                    I'm <span class="font-semibold">
-                        {% for x in personal_info %}
-                        {% if x.first_name %}
-                        {{x.first_name}}
-                        {% endif %}
-                        {% if x.middle_name %}
-                        {{x.middle_name}}
-                        {% endif %}
-                        {% if x.last_name %}
-                        {{x.last_name}}
-                        {% endif %}
-                        {% endfor %}
-                    </span>, 
-                    a passionate software developer skilled in 
-                    <span class="">Python Full Stack Development</span> 
-                    and <span class="">Odoo Development</span>.
-                </p>
-                <p class="mt-4">
-                    I build innovative solutions with cutting-edge technologies, ensuring scalable and efficient applications.
-                </p>
-            </div>
 
-                        <!-- Right Section (Image) -->
-            <div class="flex justify-center md:justify-end">
-                <img id="animatedImage" class="h-96 w-64 rounded-t-xl shadow-lg border-t-2 border-gray-700 transition-opacity duration-1000 ease-in-out"
-                        src="" 
-                        alt="Portfolio Image">
+<section class="min-h-screen flex items-center justify-center px-6 bg-gray-50">
+
+    <div class="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center">
+
+        <!-- LEFT -->
+        <div>
+
+            <!-- SMALL BADGE -->
+            <span class="inline-block mb-4 px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full">
+                Available for Opportunities
+            </span>
+
+            <!-- NAME -->
+            <h1 class="text-4xl md:text-6xl font-semibold leading-tight text-gray-900">
+                Hi, I'm
+                <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    {% for x in personal_info %}
+                    {% if x.first_name %}
+                    {{x.first_name}}
+                    {% endif %}
+                    {% if x.middle_name %}
+                    {{x.middle_name}}
+                    {% endif %}
+                    {% if x.last_name %}
+                    {{x.last_name}}
+                    {% endif %}
+                    {% endfor %}
+                </span>
+            </h1>
+
+            <!-- TYPING -->
+            <p class="mt-4 text-xl text-gray-600 font-medium">
+                <span id="typing"></span>
+            </p>
+
+            <!-- DESCRIPTION -->
+            <p class="mt-6 text-gray-600 max-w-lg leading-relaxed">
+                {% for x in personal_info %}
+                {{ x.objective }}
+                {% endfor%}
+            </p>
+
+            <!-- BUTTONS -->
+            <div class="mt-8 flex gap-4">
+
+                <a href="{% url 'project_info' %}"
+                   class="bg-gray-900 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition shadow-sm">
+                    View Projects
+                </a>
+
+                <a href="{% url 'personal_info' %}"
+                   class="border border-gray-300 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-100 transition">
+                    About Me
+                </a>
+
             </div>
 
         </div>
+
+
+        <!-- RIGHT IMAGE -->
+        <div class="flex justify-center md:justify-end">
+
+            <div class="relative group">
+
+                <!-- SOFT BACKGROUND -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-100 to-indigo-100 blur-2xl opacity-50 rounded-2xl"></div>
+
+                <!-- IMAGE -->
+                <img id="animatedImage"
+                     class="relative h-[420px] w-[300px] object-cover rounded-2xl shadow-lg border border-gray-200 transition duration-500 group-hover:scale-105"
+                     src=""
+                     alt="Profile">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SCROLL INDICATOR -->
+<div class="flex justify-center mt-6">
+    <div class="animate-bounce text-gray-400 text-sm">
+        ↓ Scroll
     </div>
 </div>
+
+
+<!-- SCRIPTS -->
 <script>
+
+    /* IMAGE ANIMATION */
     document.addEventListener("DOMContentLoaded", function () {
         let images = [];
-        
+
         {% for x in personal_info %}
             {% if x.user.all %}
                 {% for user in x.user.all %}
@@ -57,18 +110,56 @@
         const imageElement = document.getElementById("animatedImage");
 
         function changeImage() {
-            imageElement.style.opacity = "0";  // Fade out effect
+            imageElement.style.opacity = "0";
+
             setTimeout(() => {
                 imageElement.src = images[currentIndex];
-                imageElement.style.opacity = "1"; // Fade in effect
+                imageElement.style.opacity = "1";
                 currentIndex = (currentIndex + 1) % images.length;
-            }, 1000); // Time for fade-out effect
+            }, 400);
         }
 
         if (images.length > 0) {
-            imageElement.src = images[0]; // Set the first image
-            setInterval(changeImage, 20000); // Change image every 20 seconds
+            imageElement.src = images[0];
+            setInterval(changeImage, 4000);
         }
     });
+
+
+    /* TYPING EFFECT */
+    const texts = [
+        "Full Stack Developer",
+        "Django & Flask Developer",
+        "Odoo Developer",
+        "Problem Solver"
+    ];
+
+    let i = 0, j = 0, currentText = "", isDeleting = false;
+
+    function typeEffect() {
+        currentText = texts[i];
+
+        if (isDeleting) j--;
+        else j++;
+
+        document.getElementById("typing").innerHTML = currentText.substring(0, j);
+
+        if (!isDeleting && j === currentText.length) {
+            isDeleting = true;
+            setTimeout(typeEffect, 1000);
+            return;
+        }
+
+        if (isDeleting && j === 0) {
+            isDeleting = false;
+            i = (i + 1) % texts.length;
+        }
+
+        setTimeout(typeEffect, isDeleting ? 50 : 100);
+    }
+
+    typeEffect();
+
 </script>
+
 {% endblock %}

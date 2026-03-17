@@ -1,25 +1,114 @@
 {% extends 'about.html' %}
 {% block sub_content %}
-<div class="personal-info m-6 p-6 bg-white shadow-lg rounded-lg">
-    {% for x in personal_info %}
-    <div class="grid grid-cols-3 gap-6 p-6 border-2 border-gray-300 rounded-lg">
-        <div class="space-y-4 font-semibold text-gray-700">
-            <p>Name:</p>
-            <p>DOB:</p>
-            <p>Mobile Number:</p>
-            <p>Email:</p>
-            <p>LinkedIn:</p> 
-            <p>GitHub:</p>
+
+<section class="p-6 bg-gray-50 min-h-screen">
+
+    <div class="max-w-6xl mx-auto">
+
+        {% for x in personal_info %}
+        <div class="bg-white rounded-2xl shadow-xl p-8 grid md:grid-cols-3 gap-8 items-start">
+
+            <!-- LEFT PROFILE -->
+            <div class="flex flex-col items-center text-center space-y-4">
+
+                <!-- Avatar -->
+                <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-1">
+                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-3xl font-bold text-gray-700">
+                        {{ x.first_name|slice:":1" }}{{ x.last_name|slice:":1" }}
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-semibold text-gray-800">
+                    {{ x.first_name }} {{ x.middle_name }} {{ x.last_name }}
+                </h2>
+
+                <p class="text-gray-500">Full Stack Developer</p>
+
+            </div>
+
+
+            <!-- MIDDLE INFO -->
+            <div class="space-y-4 text-gray-700">
+
+                <div class="flex justify-between border-b pb-2">
+                    <span class="font-medium">Date of Birth</span>
+                    <span>{{ x.date_of_birth }}</span>
+                </div>
+
+                <div class="flex justify-between border-b pb-2">
+                    <span class="font-medium">Mobile</span>
+                    <span>{{ x.mobile_number }}</span>
+                </div>
+
+                <div class="flex justify-between border-b pb-2">
+                    <span class="font-medium">LinkedIn</span>
+                    <a href="{{ x.linked_in }}" target="_blank" class="text-blue-600 hover:underline">
+                        View Profile
+                    </a>
+                </div>
+
+                <div class="flex justify-between border-b pb-2">
+                    <span class="font-medium">GitHub</span>
+                    <a href="{{ x.github }}" target="_blank" class="text-gray-800 hover:underline">
+                        View Profile
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="space-y-4">
+
+                <!-- Social Icons -->
+                <div class="flex gap-4 justify-start">
+                    {%if x.email_id %}
+                    <a href="mailto:{{x.email_id}}" class="text-gray-600 hover:text-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 5.333-8-5.333V6h16zM4 18v-9.379l7.445 4.963c.36.24.804.24 1.165 0L20 8.621V18H4z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    {%if x.twitter %}
+                    <!-- Twitter -->
+                    <a href="{{x.twitter}}" target="_blank" class="text-gray-600 hover:text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22.46 6.011c-.793.352-1.644.588-2.54.695a4.461 4.461 0 0 0 1.957-2.465 8.965 8.965 0 0 1-2.828 1.083 4.458 4.458 0 0 0-7.594 4.063 12.647 12.647 0 0 1-9.188-4.656 4.459 4.459 0 0 0 1.38 5.95 4.41 4.41 0 0 1-2.02-.559v.056a4.458 4.458 0 0 0 3.57 4.369 4.455 4.455 0 0 1-2.014.077 4.46 4.46 0 0 0 4.164 3.096 8.95 8.95 0 0 1-5.548 1.912c-.36 0-.715-.021-1.064-.062a12.622 12.622 0 0 0 6.835 2.004c8.204 0 12.695-6.799 12.695-12.695 0-.193-.004-.386-.013-.578a9.077 9.077 0 0 0 2.234-2.314z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                    {%if x.github %}
+                    <a href="{{x.github}}" target="_blank" class="text-gray-600 hover:text-black">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.371 0 0 5.373 0 12c0 5.303 3.438 9.8 8.207 11.385.599.11.793-.261.793-.579v-2.022c-3.338.726-4.033-1.416-4.033-1.416-.546-1.385-1.333-1.754-1.333-1.754-1.089-.744.083-.729.083-.729 1.204.084 1.837 1.239 1.837 1.239 1.07 1.833 2.809 1.304 3.494.997.108-.775.419-1.305.763-1.606-2.665-.305-5.467-1.335-5.467-5.932 0-1.31.469-2.381 1.235-3.221-.123-.304-.535-1.527.117-3.183 0 0 1.008-.322 3.301 1.23.96-.267 1.989-.4 3.011-.404 1.022.004 2.051.137 3.012.404 2.291-1.553 3.297-1.23 3.297-1.23.654 1.656.242 2.879.119 3.183.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.623-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .32.192.694.801.576C20.565 21.796 24 17.298 24 12c0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- MAP -->
+                {% if x.embedded_location %}
+                <div class="rounded-xl overflow-hidden shadow-md border border-gray-200">
+                    <iframe
+                            src="{{x.embedded_location}}"
+                            class="w-full h-40"
+                            style="border:0;"
+                            loading="lazy">
+                    </iframe>
+                </div>
+                {% endif %}
+
+            </div>
+
         </div>
-        <div class="col-span-2 space-y-4 text-gray-800">
-            <p>{{ x.first_name }}{% if x.middle_name %} {{ x.middle_name }} {% endif %} {{ x.last_name }}</p>
-            <p>{{x.date_of_birth}}</p>
-            <p>{{ x.mobile_number }}</p>
-            <p class="text-blue-500 underline">{{ x.email_id }}</p>
-            <p><a href="{{ x.linked_in }}" class="text-blue-600 hover:underline">{{ x.linked_in }}</a></p>
-            <p><a href="{{ x.github }}" class="text-gray-600 hover:underline">{{ x.github }}</a></p>
-        </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
-</div>
+
+</section>
+
 {% endblock %}
