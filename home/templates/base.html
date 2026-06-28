@@ -27,7 +27,14 @@
     <div class="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
 
         <a href="{% url 'home' %}" class="text-lg font-medium">
-            Srikanth
+            {% for x in personal_info %}
+            {% if x.first_name %}
+            {{ x.first_name }}
+            {% endif %}
+            {% if x.last_name %}
+            {{ x.last_name }}
+            {% endif %}
+            {% endfor %}
         </a>
 
         <nav class="flex space-x-6 text-sm text-gray-600">
