@@ -62,7 +62,11 @@
 
                         <!-- STATUS -->
                         <span class="text-xs text-gray-400">
+                            {% if x.website %}
+                            <a href="{{ x.website }}" target="_blank">{{ x.website }}</a>
+                            {% else %}
                             Project
+                            {% endif %}
                         </span>
 
                         <!-- BUTTONS -->

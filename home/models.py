@@ -143,6 +143,7 @@ class WebApplicationInfo(models.Model):
     features = models.TextField("Features", null=True, blank=True)
     technologies = models.TextField("Technologies Used", default=None)
     github_url = models.URLField("GitHub Repository", default=None)
+    website = models.TextField("Website", blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} - {self.technologies}"
